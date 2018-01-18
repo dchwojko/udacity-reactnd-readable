@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Home from './Home';
-import logo from '../assets/logo.svg';
 import DeleteIcon from '../assets/Delete_Icon.png';
 import PostDetailView from './PostDetailView';
 

@@ -9,21 +9,16 @@ const headers = {
   };
 
 class Post extends Component {
-    state = {
-        post: {}
-    };
-
-    
 
     handleEditButtonClick() {
 
     }
 
-    handleDeleteButtonClick(id) {
-        // TODO: set post.deleted flag to true
-        //DELETE /posts/:id
-        
-        fetch(`http://localhost:3001/posts/${id}`, {headers: headers, method: 'DELETE'}).then((res) => res.json() ).then((data) => console.log(id + ` post has been deleted.`));
+    async handleDeleteButtonClick(id) {
+        var url = `http://localhost:3001/posts/${id}`;
+        console.log(url);
+        // NOTE: post is being deleted, however the post view is not updating
+        await fetch(`${url}`, {headers: headers, method: 'DELETE'}).then((res) => res.json() ).then((data) => console.log(url + ` post has been deleted.`));
     }
 
     handleAddCommentButtonClick() {
@@ -31,7 +26,7 @@ class Post extends Component {
     }
 
     isDeleted(flag) {
-        return flag ? "TRUE" : "FALXSE";
+        return flag ? "TRUE" : "FALSE";
     }
 
     render() {
@@ -49,7 +44,7 @@ class Post extends Component {
                     <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleAddCommentButtonClick()}>Add Comment</Link></div>
                     <div>
                         <Link className="btn" role="button" to="/createEditView" onClick={this.handleEditButtonClick()}>Edit Post</Link>
-                        <Link className="btn" role="button" to="/" onClick={this.handleDeleteButtonClick(post.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
+                        <Link className="btn" role="button" to="/" onClick={(event) => this.handleDeleteButtonClick(post.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
                     </div>
                 </div>
             </div>

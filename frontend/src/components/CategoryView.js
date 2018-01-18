@@ -4,7 +4,6 @@ Category View
 */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Home from './Home';
 
 class CategoryView extends Component {

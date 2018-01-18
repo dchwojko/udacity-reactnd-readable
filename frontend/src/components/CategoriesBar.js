@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CategoryView from './CategoryView';
 import { Link } from 'react-router-dom';
 
 const headers = {
@@ -22,7 +21,7 @@ class CategoriesBar extends Component {
 
     buildCategory = (category) => {
         return (
-                <Link key={category.name} className="btn" role="button" key={category.name} to={`/categoryView/${category.name}`} onClick={this.handleEditButtonClick()}>{category.name}</Link>
+                <Link key={category.name} className="btn" role="button" to={`/categoryView/${category.name}`} onClick={this.handleEditButtonClick()}>{category.name}</Link>
         );
     }
 
