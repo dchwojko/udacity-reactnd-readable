@@ -1,58 +1,61 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import DeleteIcon from '../assets/Delete_Icon.png';
+
+const headers = {
+    'Authorization': 'witcher_mo',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
 
 class Post extends Component {
     state = {
-        timestamp: this.props.timestamp,
-        title: this.props.title,
-        body: this.props.body,
-        author: this.props.author,
-        category: this.props.category,
-        voteScore: this.props.voteScore,
-        readonly: true
+        post: {}
     };
 
-    savePost = () => {
-        this.setState({readonly: true});
+    
+
+    handleEditButtonClick() {
+
     }
 
-    editPost = () => {
-        this.setState({readonly: false});
+    handleDeleteButtonClick(id) {
+        // TODO: set post.deleted flag to true
+        //DELETE /posts/:id
+        
+        fetch(`http://localhost:3001/posts/${id}`, {headers: headers, method: 'DELETE'}).then((res) => res.json() ).then((data) => console.log(id + ` post has been deleted.`));
+    }
+
+    handleAddCommentButtonClick() {
+
+    }
+
+    isDeleted(flag) {
+        return flag ? "TRUE" : "FALXSE";
     }
 
     render() {
-        const {categories} = this.props;
+        const {post} = this.props;
         return (
-            <div>
-                <table>
-                    <tbody>
-                <tr><td>Timestemp</td><td><input type="text" placeholder="placeholdertext" value={this.state.timestamp} readOnly={this.state.readonly} /></td></tr>
-                <tr><td>Title</td><td><input type="text" placeholder="placeholdertext" value={this.state.title} readOnly={this.state.readonly}/></td></tr>
-                <tr><td>Body</td><td><textarea value={this.state.body} readOnly={this.state.readonly}/></td></tr>
-                <tr><td>Author</td><td><input type="text" placeholder="placeholdertext" value={this.state.author} readOnly={this.state.readonly}/></td></tr>
-                <tr><td>Category</td><td><select value={this.state.category} readOnly={this.state.readonly}>
-                    {categories.map((category) => {return <option key={category.name} readOnly={this.state.readonly} value={category.name}>{category.path}</option>})}
-                </select></td></tr>
-                <tr><td>Vote Score</td><td><input type="text" placeholder="placeholdertext" value={this.state.voteScore} readOnly={this.state.readonly}/></td></tr>
-                <tr><td>
-                    <input type="button" value="Edit" onClick={this.editPost} readOnly={this.state.readonly} />
-                    <input type="button" value="Save" onClick={this.savePost} readOnly={this.state.readonly} />
-                </td></tr>
-                </tbody>
-                </table>
+            <div key={post.id} className="card">
+                <div className="container">
+                    <div className="post-title">{post.title} (id: {post.id})</div>
+                    <div className="post-body">Body: {post.body}</div>
+                    <div className="post-author">Author: {post.author}</div>
+                    <div className="post-category">Category: {post.category}</div>
+                    <div className="post-vote-score">{post.voteScore} <button type="button" value="+1">+1</button> <button type="button" value="-1">-1</button></div>
+                    <div className="post-comment-count" hidden="true">TODO: Number of Comments</div>
+                    <div className="post-delete-flag">DELETED FLAG: {this.isDeleted(post.deleted)}</div>
+                    <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleAddCommentButtonClick()}>Add Comment</Link></div>
+                    <div>
+                        <Link className="btn" role="button" to="/createEditView" onClick={this.handleEditButtonClick()}>Edit Post</Link>
+                        <Link className="btn" role="button" to="/" onClick={this.handleDeleteButtonClick(post.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
+                    </div>
+                </div>
             </div>
+
         )
     }
 }
 
 export default Post;
-
-/*
-id	String	Unique identifier
-timestamp	Integer	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
-title	String	Post title
-body	String	Post body
-author	String	Post author
-category	String	Should be one of the categories provided by the server
-voteScore	Integer	Net votes the post has received (default: 1)
-deleted	Boolean	Flag if post has been 'deleted' (inaccessible by the front end), (default: false)
-*/

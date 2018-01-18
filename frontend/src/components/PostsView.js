@@ -28,12 +28,18 @@ class PostsView extends Component {
 
     }
 
-    handleDeleteButtonClick() {
+    handleDeleteButtonClick(id) {
         // TODO: set post.deleted flag to true
+        //DELETE /posts/:id
+        fetch(`http://localhost:3001/posts/{id}`, {headers: headers, method: 'DELETE'}).then((res) => res.json() ).then((data) => console.log('post has been deleted.'));
     }
 
     handleAddCommentButtonClick() {
 
+    }
+
+    isDeleted(flag) {
+        return flag ? "TRUE" : "FALSE";
     }
 
     buildPost = (post) => {
@@ -46,10 +52,11 @@ class PostsView extends Component {
                     <div className="post-category">Category: {post.category}</div>
                     <div className="post-vote-score">{post.voteScore} <button type="button" value="+1">+1</button> <button type="button" value="-1">-1</button></div>
                     <div className="post-comment-count" hidden="true">TODO: Number of Comments</div>
+                    <div className="post-delete-flag">DELETED FLAG: {this.isDeleted(post.deleted)}</div>
                     <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleAddCommentButtonClick()}>Add Comment</Link></div>
                     <div>
                         <Link className="btn" role="button" to="/createEditView" onClick={this.handleEditButtonClick()}>Edit Post</Link>
-                        <Link className="btn" role="button" to="/" onClick={this.handleDeleteButtonClick()}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
+                        <Link className="btn" role="button" to="/" onClick={this.handleDeleteButtonClick(post.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
                     </div>
                 </div>
             </div>
