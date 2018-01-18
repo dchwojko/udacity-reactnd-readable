@@ -40,7 +40,7 @@ class PostsView extends Component {
         return (
             <div key={post.id} className="card">
                 <div className="container">
-                    <div className="post-title"><p>Title: {post.title} (id: {post.id})</p></div>
+                    <div className="post-title">{post.title} (id: {post.id})</div>
                     <div className="post-body">Body: {post.body}</div>
                     <div className="post-author">Author: {post.author}</div>
                     <div className="post-category">Category: {post.category}</div>

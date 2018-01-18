@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Home from './Home';
 import logo from '../assets/logo.svg';
 import DeleteIcon from '../assets/Delete_Icon.png';
+import PostDetailView from './PostDetailView';
 
 class Sandbox extends Component {
 
@@ -10,6 +11,7 @@ class Sandbox extends Component {
         return (
             <div>
                 <Home />
+                <PostDetailView />
                 <h3>Delete Icon</h3>
                 <img src={DeleteIcon} alt="delete icon" width="25px" height="25px" />
                 <h3>Table</h3>
