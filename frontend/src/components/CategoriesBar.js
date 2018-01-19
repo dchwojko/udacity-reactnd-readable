@@ -12,17 +12,20 @@ class CategoriesBar extends Component {
         fetch(`http://localhost:3001/categories`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.setState({categories: data.categories}))
     }    
 
-    handleEditButtonClick() {}
+    handleCategoryButton() {}
 
     buildCategory = (category) => {
         return (
-                <Link key={category.name} className="btn" role="button" to={`/categoryView/${category.name}`} onClick={this.handleEditButtonClick()}>{category.name}</Link>
+            <Link key={category.name} className="btn" role="button" to={`/categoryView/${category.name}`} onClick={this.handleCategoryButton()}>{category.name}</Link>
         );
     }
 
     render() {
         return (
-            <div>{this.state.categories.map((category) => { return this.buildCategory(category)})}</div>
+            <div>Categories: 
+                <Link key="all" className="btn" role="button" to="/" onClick={this.handleCategoryButton()}>All</Link>
+                {this.state.categories.map((category) => { return this.buildCategory(category)})}
+            </div>
         );
     }
 }

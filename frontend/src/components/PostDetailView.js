@@ -8,6 +8,7 @@ Post Detail View
 - comments should also have controls for editing or deleting
 */
 import React, { Component } from 'react';
+import Home from './Home';
 import Constants from './Constants';
 
 class PostDetailView extends Component {
@@ -33,6 +34,7 @@ class PostDetailView extends Component {
         return (
             <div>
                 <div>PostDetailView</div>
+                <Home />
                 <div>Comments</div>
                 <p>There are {this.state.comments.length} comments</p>
                 {this.outputComments()}

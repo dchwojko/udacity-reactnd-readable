@@ -9,7 +9,6 @@ class Sandbox extends Component {
         return (
             <div>
                 <Home />
-                <PostDetailView />
                 <h3>Delete Icon</h3>
                 <img src={DeleteIcon} alt="delete icon" width="25px" height="25px" />
                 <h3>Table</h3>

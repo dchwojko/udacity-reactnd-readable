@@ -64,9 +64,9 @@ class PostsView extends Component {
         return (
             <div>
                 <p><Link to="/sandbox" className="btn" role="button">sandbox</Link></p>
-                <CategoriesBar />
                 <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleCreateNewPostButtonClick()}>Create New Post</Link></div>
-                <div>Sort By: <select><option value="Date">Date</option><option value="voteScore">Vote Score</option></select> Sort order: <select><option value="Ascending">Ascending</option><option value="Descending">Descending</option><option value="None">None</option></select></div>
+                <CategoriesBar />
+                <div>Sort By: <select><option value="Date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select><option value="Ascending">Ascending</option><option value="Descending">Descending</option></select></div>
                 <div className="posts-lists">
                     {this.state.posts.map((post) => { return this.buildPost(post)})}
                 </div>
