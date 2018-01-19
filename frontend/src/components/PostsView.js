@@ -69,15 +69,15 @@ class PostsView extends Component {
         );
     }
 
-    handleSortByChange(value) {
+    async handleSortByChange(value) {
         console.log('handleSortByChange: ' + value);
-        this.setState({sortBy: value});
+        await this.setState({sortBy: value});
         this.sortPosts();
     }
 
-    handleSortOrderChange(value) {
+    async handleSortOrderChange(value) {
         console.log('handleSortOrderChange: ' + value);
-        this.setState({sortOrder: value});
+        await this.setState({sortOrder: value});
         this.sortPosts();
     }
 
