@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Home from './Home';
 import DeleteIcon from '../assets/Delete_Icon.png';
-import PostDetailView from './PostDetailView';
 
 class Sandbox extends Component {
 

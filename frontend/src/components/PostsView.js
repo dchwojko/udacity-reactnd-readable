@@ -9,8 +9,8 @@ class PostsView extends Component {
 
     state = {
         posts: [],
-        sortOrder: '',
-        sortBy: '',
+        sortOrder: 'Ascending',
+        sortBy: 'Date',
     };
 
     componentDidMount() {
@@ -23,7 +23,6 @@ class PostsView extends Component {
     }
 
     deletePost = (id) => {
-        // TO DO: delete post by id    
         var url = `http://localhost:3001/posts/${id}`;
         console.log(url);
         fetch(`${url}`, {headers: Constants.headers, method: Constants.methods.DELETE}).then((res) => res.json() ).then((data) => console.log(`${url} post has been deleted.`)).then(() => {this.fetchPosts();});
@@ -33,21 +32,31 @@ class PostsView extends Component {
         fetch(`http://localhost:3001/posts`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.updatePosts(data));
     }
 
-    updatePosts(data) {
-        if (this.state.sortBy === "Data") {
+    async updatePosts(data) {
+        await this.setState({posts: data});
+        this.sortPosts();
+    }
+
+    sortPosts() {
+        console.log('sort by: ' + this.state.sortBy);
+        console.log('sort order: ' + this.state.sortOrder);
+        if (this.state.sortBy === "Date") {
             if (this.state.sortOrder === "Ascending") {
-                // TO DO
+                console.log('sorting by date ascending');
+                this.setState({posts: this.state.posts.sort((a,b) => a.timestamp > b.timestamp)});
             } else {
-                // TO DO
+                console.log('sorting by date descending');
+                this.setState({posts: this.state.posts.sort((a,b) => a.timestamp < b.timestamp)});
             }
         } else {
             if (this.state.sortOrder === "Ascending") {
-                // TO DO
+                console.log('sorting by vote score ascending');
+                this.setState({posts: this.state.posts.sort((a,b) => a.voteScore > b.voteScore)});
             } else {
-                // TO DO
+                console.log('sorting by vote score descending');
+                this.setState({posts: this.state.posts.sort((a,b) => a.voteScore < b.voteScore)});
             }
         }
-        this.setState({posts: data});
     }
 
     isDeleted(flag) {
@@ -60,13 +69,25 @@ class PostsView extends Component {
         );
     }
 
+    handleSortByChange(value) {
+        console.log('handleSortByChange: ' + value);
+        this.setState({sortBy: value});
+        this.sortPosts();
+    }
+
+    handleSortOrderChange(value) {
+        console.log('handleSortOrderChange: ' + value);
+        this.setState({sortOrder: value});
+        this.sortPosts();
+    }
+
     render() {
         return (
             <div>
                 <p><Link to="/sandbox" className="btn" role="button">sandbox</Link></p>
                 <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleCreateNewPostButtonClick()}>Create New Post</Link></div>
                 <CategoriesBar />
-                <div>Sort By: <select><option value="Date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select><option value="Ascending">Ascending</option><option value="Descending">Descending</option></select></div>
+                <div>Sort By: <select onChange={(event) => {this.handleSortByChange(event.target.value)}}><option value="Date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select onChange={(event) => this.handleSortOrderChange(event.target.value)}><option value="Ascending">Ascending</option><option value="Descending">Descending</option></select></div>
                 <div className="posts-lists">
                     {this.state.posts.map((post) => { return this.buildPost(post)})}
                 </div>
