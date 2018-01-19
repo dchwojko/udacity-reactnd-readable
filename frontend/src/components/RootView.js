@@ -6,12 +6,7 @@ Default (Root)
 - should have a control for adding a new post
 */
 import React, { Component } from 'react';
-
-const headers = {
-    'Authorization': 'witcher_mo',
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+import Constants from './Constants';
 
 class RootView extends Component {
     state = {
@@ -19,7 +14,7 @@ class RootView extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://localhost:3001/categories`, {headers: headers}).then((res) => res.json() ).then((data) => this.setState({categories: data.categories}))
+        fetch(`http://localhost:3001/categories`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.setState({categories: data.categories}))
     }    
 
     buildCategory = (category) => {

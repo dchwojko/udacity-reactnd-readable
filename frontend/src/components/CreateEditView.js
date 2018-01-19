@@ -7,12 +7,7 @@ Create/Edit View
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Home from './Home';
-
-const headers = {
-    'Authorization': 'witcher_mo',
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+import Constants from './Constants';
 
 class CreateEditView extends Component {
     state = {
@@ -41,14 +36,14 @@ class CreateEditView extends Component {
     createPost() {
         var timestamp = Date.now();
         const body = JSON.stringify({
-            'id': '1',
+            'id': Math.floor(Math.random() * 1000000),
             'timestamp': timestamp,
             'title': this.state.title,
             'body': this.state.body,
             'author': 'don',
             'category': 'redux'
         });
-        fetch(`http://localhost:3001/posts`, {headers: headers, method: 'POST', body: body}).then((res) => res.json() ).then((data) => console.log('adding post'));
+        fetch(`http://localhost:3001/posts`, {headers: Constants.headers, method: Constants.methods.POST, body: body}).then((res) => res.json() ).then((data) => console.log('adding post'));
         // TODO: handle error
 
     }
@@ -123,17 +118,3 @@ class CreateEditView extends Component {
 
 
 export default CreateEditView;
-
-/*
-     "6ni6ok3ym7mf1p33lnez": {
-    id: '6ni6ok3ym7mf1p33lnez',
-    timestamp: 1468479767190,
-    title: 'Learn Redux in 10 minutes!',
-    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
-    author: 'thingone',
-    category: 'redux',
-    voteScore: -5,
-    deleted: false,
-    commentCount: 0
-  }
-*/

@@ -8,12 +8,8 @@ Post Detail View
 - comments should also have controls for editing or deleting
 */
 import React, { Component } from 'react';
+import Constants from './Constants';
 
-const headers = {
-    'Authorization': 'witcher_mo',
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
 class PostDetailView extends Component {
     state = {
         post: '',
@@ -29,7 +25,7 @@ class PostDetailView extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3001/posts/8xf0y6ziyjabvozdd253nd/comments`, {headers: headers}).then((res) => res.json() ).then((data) => this.setState({comments: data}));
+        fetch(`http://localhost:3001/posts/8xf0y6ziyjabvozdd253nd/comments`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.setState({comments: data}));
         //fetch(`http://localhost:3001/posts/:id/comments`, {headers: headers}).then((res) => res.json() ).then((data) => this.setState({comments: data}));
     }
 

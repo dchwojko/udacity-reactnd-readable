@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-const headers = {
-    'Authorization': 'witcher_mo',
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+import Constants from './Constants';
 
 class CategoriesBar extends Component {
 
@@ -14,7 +9,7 @@ class CategoriesBar extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://localhost:3001/categories`, {headers: headers}).then((res) => res.json() ).then((data) => this.setState({categories: data.categories}))
+        fetch(`http://localhost:3001/categories`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.setState({categories: data.categories}))
     }    
 
     handleEditButtonClick() {}

@@ -7,12 +7,7 @@ import PostDetailView from './PostDetailView';
 import CreateEditView from './CreateEditView';
 import { Route } from 'react-router-dom';
 import Sandbox from './Sandbox';
-
-const headers = {
-  'Authorization': 'witcher_mo',
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-}
+import Constants from './Constants';
 
 class App extends Component {
   state = {
@@ -20,7 +15,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    fetch(`http://localhost:3001/categories`, { headers: headers })
+    fetch(`http://localhost:3001/categories`, { headers: Constants.headers })
         .then((res) => res.json() )
         .then(
           (data) => this.setState({note: data.categories})
