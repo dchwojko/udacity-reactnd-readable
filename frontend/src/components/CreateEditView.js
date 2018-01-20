@@ -12,26 +12,13 @@ import Constants from './Constants';
 class CreateEditView extends Component {
     state = {
         editMode: false,
+        id: '',
         title: '',
         body: '',
         author: '',
         category: '',
-        categories: ["1","2","3","4"],
+        categories: [],
     };
-
-/*
-    POST /posts
-      USAGE:
-        Add a new post
-
-      PARAMS:
-        id - UUID should be fine, but any unique id will work
-        timestamp - timestamp in whatever format you like, you can use Date.now() if you like
-        title - String
-        body - String
-        author - String
-        category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
-*/
 
     createPost() {
         var timestamp = Date.now();
@@ -50,8 +37,12 @@ class CreateEditView extends Component {
 
     componentDidMount() {
         console.log('componentDidMount()');
+        if (this.props.editMode === true) {
+            this.setState({editMode: true});
+        } else {
+            this.setState({editMode: false});
+        }
         this.getCategories();
-        
     }
 
     async getCategories() {
@@ -91,6 +82,27 @@ class CreateEditView extends Component {
         console.log(this.state.category);
     }
 
+    async updatePost() {
+        // WORK IN PROGRESS
+        const body = {
+            title: this.state.title,
+            body: this.state.body
+        };
+        await fetch(`http://localhost:3001/posts/${this.state.id}`, {headers: Constants.headers}, {method: "PUT"}, {body: JSON.stringify(body)}).then((res) => res.json()).then((date) => { console.log('updated post')});
+    }
+
+    getButtonType() {
+        if (this.state.editMode) {
+            return <Link to="/"><input type="submit" value="Update" onClick={(event) => {
+                this.updatePost();
+                }}/></Link>
+        } else {
+            return <Link to="/"><input type="submit" value="Submit" onClick={(event) => {
+                this.createPost();
+                }}/></Link>
+        }
+    }
+
     render() {
         return (
             <div>
@@ -120,9 +132,7 @@ class CreateEditView extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan="2"><Link to="/"><input type="submit" value="Submit" onClick={(event) => {
-                                this.createPost();
-                                }}/></Link><Link to="/"><input type="submit" value="Cancel"/></Link></td>
+                            <td colSpan="2">{this.getButtonType()}<Link to="/"><input type="submit" value="Cancel"/></Link></td>
                         </tr>
                     </tbody>
                 </table>
