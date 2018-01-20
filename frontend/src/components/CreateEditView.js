@@ -16,7 +16,7 @@ class CreateEditView extends Component {
         body: '',
         author: '',
         category: '',
-        categories: [],
+        categories: ["1","2","3","4"],
     };
 
 /*
@@ -49,7 +49,25 @@ class CreateEditView extends Component {
     }
 
     componentDidMount() {
-        this.setState({editMode: false});
+        console.log('componentDidMount()');
+        this.getCategories();
+        
+    }
+
+    async getCategories() {
+        console.log('getCategories');
+        
+        await fetch(`http://localhost:3001/categories`, {headers: Constants.headers}).then((res) => res.json()).then((data) => {
+            this.setState({categories: data.categories});
+            /*
+            console.log(data);
+            var arr = data;
+            console.log(data.categories[0]);
+            this.setState({categories: data});
+            console.log(`fetched ${this.state.categories.length} categories`);
+            */
+        },
+        console.log('there was an error retrieving categories'));
     }
 
     async updateTitle(title) {
@@ -97,8 +115,7 @@ class CreateEditView extends Component {
                             <th>Category:</th>
                             <td>
                                 <select onChange={(event) => this.updateCategory(event.target.value)}>
-                                    <option>1</option>
-                                    <option>2</option>
+                                    {this.state.categories.map((category) => { return <option key={category.name} value={category.name}>{category.name}</option>})}
                                 </select>
                             </td>
                         </tr>

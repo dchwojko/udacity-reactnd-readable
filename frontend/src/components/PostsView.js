@@ -9,8 +9,8 @@ class PostsView extends Component {
 
     state = {
         posts: [],
-        sortOrder: 'Ascending',
-        sortBy: 'Date',
+        sortOrder: 'ascending',
+        sortBy: 'date',
     };
 
     componentDidMount() {
@@ -40,27 +40,30 @@ class PostsView extends Component {
     sortPosts() {
         console.log('sort by: ' + this.state.sortBy);
         console.log('sort order: ' + this.state.sortOrder);
-        if (this.state.sortBy === "Date") {
-            if (this.state.sortOrder === "Ascending") {
-                console.log('sorting by date ascending');
-                this.setState({posts: this.state.posts.sort((a,b) => a.timestamp > b.timestamp)});
-            } else {
-                console.log('sorting by date descending');
-                this.setState({posts: this.state.posts.sort((a,b) => a.timestamp < b.timestamp)});
-            }
-        } else {
-            if (this.state.sortOrder === "Ascending") {
-                console.log('sorting by vote score ascending');
-                this.setState({posts: this.state.posts.sort((a,b) => a.voteScore > b.voteScore)});
-            } else {
-                console.log('sorting by vote score descending');
-                this.setState({posts: this.state.posts.sort((a,b) => a.voteScore < b.voteScore)});
-            }
+        
+        switch (this.state.sortBy) {
+            case "date":
+                if (this.state.sortOrder === "ascending") {
+                    console.log('sorting by date ascending');
+                    this.setState({posts: this.state.posts.sort((a,b) => a.timestamp > b.timestamp)});
+                } else {
+                    console.log('sorting by date descending');
+                    this.setState({posts: this.state.posts.sort((a,b) => a.timestamp < b.timestamp)});
+                }
+                break;
+            case "voteScore":
+                if (this.state.sortOrder === "ascending") {
+                    console.log('sorting by vote score ascending');
+                    this.setState({posts: this.state.posts.sort((a,b) => a.voteScore > b.voteScore)});
+                } else {
+                    console.log('sorting by vote score descending');
+                    this.setState({posts: this.state.posts.sort((a,b) => a.voteScore < b.voteScore)});
+                }
+                break;
+            default:
+                console.log('unknown sort by value');
+                break;
         }
-    }
-
-    isDeleted(flag) {
-        return flag ? "TRUE" : "FALSE";
     }
 
     buildPost = (post) => {
@@ -87,7 +90,7 @@ class PostsView extends Component {
                 <p><Link to="/sandbox" className="btn" role="button">sandbox</Link></p>
                 <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleCreateNewPostButtonClick()}>Create New Post</Link></div>
                 <CategoriesBar />
-                <div>Sort By: <select onChange={(event) => {this.handleSortByChange(event.target.value)}}><option value="Date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select onChange={(event) => this.handleSortOrderChange(event.target.value)}><option value="Ascending">Ascending</option><option value="Descending">Descending</option></select></div>
+                <div>Sort By: <select onChange={(event) => {this.handleSortByChange(event.target.value)}}><option value="date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select onChange={(event) => this.handleSortOrderChange(event.target.value)}><option value="ascending">Ascending</option><option value="descending">Descending</option></select></div>
                 <div className="posts-lists">
                     {this.state.posts.map((post) => { return this.buildPost(post)})}
                 </div>
