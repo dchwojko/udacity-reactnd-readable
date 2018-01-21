@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import Home from './Home';
 import Constants from './Constants';
 import Post from './Post';
+import Comment from './Comment';
 
 class PostDetailView extends Component {
     state = {
@@ -18,12 +19,17 @@ class PostDetailView extends Component {
         comments: []
     };
 
+    deleteComment() {
+        console.log('deleting comment');
+        this.getComments();
+    }
+
     outputComments() {
             if (this.state.comments.length !== 0) {
                 return (
-                <ul>
-                    {this.state.comments.map((comment) => { return <li key={comment.id}>{comment.body} {comment.author} {comment.timestamp}</li>})}
-                </ul>
+                    <div align>
+                    {this.state.comments.map((comment) => { return <Comment comment={comment} deleteComment={this.deleteComment()}/>})}
+                    </div>
                 );
             } else {
                 return (<div>There are no comments for this post.</div>);
@@ -33,7 +39,11 @@ class PostDetailView extends Component {
     componentDidMount() {
         console.log("Post Detail View");
         console.log("post id: " + this.props.match.params.postId);
-        fetch(`http://localhost:3001/posts/${this.props.match.params.postId}/comments`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => {
+        this.getComments();
+    }
+
+    async getComments() {
+        await fetch(`http://localhost:3001/posts/${this.props.match.params.postId}/comments`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => {
             console.log(data);
             this.setState({comments: data});
         });
@@ -41,13 +51,14 @@ class PostDetailView extends Component {
 
     render() {
         return (
-            <div>
+            <div className="posts-lists">
                 <div>PostDetailView</div>
                 <Home />
                 <Post post='' showDetailViewButton='false'/>
-                <div>Comments</div>
+                <div>
                 <p>There are {this.state.comments.length} comments</p>
                 {this.outputComments()}
+                </div>
             </div>
         )
     }
