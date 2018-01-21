@@ -4,6 +4,13 @@ import DeleteIcon from '../assets/Delete_Icon.png';
 import Constants from './Constants';
 
 class Post extends Component {
+    state = {
+        showDetailViewButton: false,
+    };
+
+    componentDidMount() {
+        this.props.showDetailViewButton === true ? this.setState({showDetailViewButton: true}) : this.setState({showDetailViewButton: false});
+    }
 
     handleEditButtonClick() {
 
@@ -21,11 +28,7 @@ class Post extends Component {
     }
 
     handlePostDetailViewButtonClick() {
-
-    }
-
-    isDeleted(flag) {
-        return flag ? "TRUE" : "FALSE";
+        console.log('handlePostDetailViewButtonClick');
     }
 
     render() {
@@ -41,9 +44,9 @@ class Post extends Component {
                     <div className="post-vote-score" id="category">{post.voteScore} <button type="button" value="+1">+1</button> <button type="button" value="-1">-1</button></div>
                     <div className="post-comment-count" id="commentCount"># of comments: {post.commentCount}</div>
                     <div>
-                        <Link className="btn" role="button" to="/postDetailView" onClick={this.handlePostDetailViewButtonClick()} id="postDetailViewButton">Detail View</Link>
-                        <Link className="btn" role="button" to="/createEditView" onClick={this.handleAddCommentButtonClick()} id="addCommentButton">Add Comment</Link>
-                        <Link className="btn" role="button" to="/createEditView" onClick={this.handleEditButtonClick()} id="editPostButton">Edit Post</Link>
+                        <Link className="btn" role="button" to={`/postDetailView/${post.id}`} onClick={this.handlePostDetailViewButtonClick()} id="postDetailViewButton">Detail View</Link>
+                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleAddCommentButtonClick()} id="addCommentButton">Add Comment</Link>
+                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleEditButtonClick()} id="editPostButton">Edit Post</Link>
                         <Link className="btn" role="button" to="/" onClick={(event) => deletePost(post.id)} id="deleteButton"><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
                     </div>
                 </div>

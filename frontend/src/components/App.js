@@ -29,11 +29,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">MyReads App</h1>
         </header>
-        <Route path="/sandbox" render={ () => <Sandbox />}/>
-        <Route exact path="/" render={ () => <PostsView /> }/>
-        <Route path="/createEditView" render={ () => <CreateEditView />}/>
-        <Route path="/postDetailView" render={ () => <PostDetailView />}/>
-        <Route path="/categoryView/:categoryName" render={ () => <CategoryView />}/>
+        <Route path="/sandbox/:id" component={Sandbox}/>
+        <Route exact path="/" component={PostsView}/>
+        <Route path="/createEditView" component={CreateEditView}/>
+        <Route path="/postDetailView/:postId" component={PostDetailView}/>
+        <Route path="/categoryView/:categoryName" component={CategoryView}/>
       </div>
     );
   }

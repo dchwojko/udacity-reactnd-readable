@@ -4,6 +4,12 @@ import DeleteIcon from '../assets/Delete_Icon.png';
 
 class Sandbox extends Component {
 
+    componentDidMount() {
+        console.log("sandbox");
+        console.log(this);
+        console.log("ID: " + this.props.match.params.id);
+    }
+
     render() {
         return (
             <div>

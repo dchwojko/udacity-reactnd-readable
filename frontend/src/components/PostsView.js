@@ -17,11 +17,6 @@ class PostsView extends Component {
         this.fetchPosts();
     }
 
-
-    handleCreateNewPostButtonClick() {
-
-    }
-
     deletePost = (id) => {
         var url = `http://localhost:3001/posts/${id}`;
         console.log(url);
@@ -37,26 +32,19 @@ class PostsView extends Component {
         this.sortPosts();
     }
 
-    sortPosts() {
-        console.log('sort by: ' + this.state.sortBy);
-        console.log('sort order: ' + this.state.sortOrder);
-        
+    sortPosts() {        
         switch (this.state.sortBy) {
             case "date":
                 if (this.state.sortOrder === "ascending") {
-                    console.log('sorting by date ascending');
                     this.setState({posts: this.state.posts.sort((a,b) => a.timestamp > b.timestamp)});
                 } else {
-                    console.log('sorting by date descending');
                     this.setState({posts: this.state.posts.sort((a,b) => a.timestamp < b.timestamp)});
                 }
                 break;
             case "voteScore":
                 if (this.state.sortOrder === "ascending") {
-                    console.log('sorting by vote score ascending');
                     this.setState({posts: this.state.posts.sort((a,b) => a.voteScore > b.voteScore)});
                 } else {
-                    console.log('sorting by vote score descending');
                     this.setState({posts: this.state.posts.sort((a,b) => a.voteScore < b.voteScore)});
                 }
                 break;
@@ -68,7 +56,7 @@ class PostsView extends Component {
 
     buildPost = (post) => {
         return (
-            <Post post={post} key={post.id} deletePost={this.deletePost}/>
+            <Post post={post} key={post.id} deletePost={this.deletePost} showDetailViewButton="true"/>
         );
     }
 
@@ -87,8 +75,8 @@ class PostsView extends Component {
     render() {
         return (
             <div>
-                <p><Link to="/sandbox" className="btn" role="button">sandbox</Link></p>
-                <div><Link className="btn" role="button" to="/createEditView" onClick={this.handleCreateNewPostButtonClick()}>Create New Post</Link></div>
+                <Link className="btn" role="button" to="/sandbox/1">sandbox</Link>
+                <div><Link className="btn" role="button" to="/createEditView" >Create New Post</Link></div>
                 <CategoriesBar />
                 <div>Sort By: <select onChange={(event) => {this.handleSortByChange(event.target.value)}}><option value="date">Date</option><option value="voteScore">Vote Score</option></select> Sort Order: <select onChange={(event) => this.handleSortOrderChange(event.target.value)}><option value="ascending">Ascending</option><option value="descending">Descending</option></select></div>
                 <div className="posts-lists">

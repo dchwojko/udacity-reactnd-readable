@@ -10,6 +10,7 @@ Post Detail View
 import React, { Component } from 'react';
 import Home from './Home';
 import Constants from './Constants';
+import Post from './Post';
 
 class PostDetailView extends Component {
     state = {
@@ -18,16 +19,24 @@ class PostDetailView extends Component {
     };
 
     outputComments() {
-        return (
-            <ul>
-                {this.state.comments.map((comment) => { return <li key={comment.id}>{comment.body} {comment.author} {comment.timestamp}</li>})}
-            </ul>
-        )
+            if (this.state.comments.length !== 0) {
+                return (
+                <ul>
+                    {this.state.comments.map((comment) => { return <li key={comment.id}>{comment.body} {comment.author} {comment.timestamp}</li>})}
+                </ul>
+                );
+            } else {
+                return (<div>There are no comments for this post.</div>);
+            }
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3001/posts/8xf0y6ziyjabvozdd253nd/comments`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => this.setState({comments: data}));
-        //fetch(`http://localhost:3001/posts/:id/comments`, {headers: headers}).then((res) => res.json() ).then((data) => this.setState({comments: data}));
+        console.log("Post Detail View");
+        console.log("post id: " + this.props.match.params.postId);
+        fetch(`http://localhost:3001/posts/${this.props.match.params.postId}/comments`, {headers: Constants.headers}).then((res) => res.json() ).then((data) => {
+            console.log(data);
+            this.setState({comments: data});
+        });
     }
 
     render() {
@@ -35,6 +44,7 @@ class PostDetailView extends Component {
             <div>
                 <div>PostDetailView</div>
                 <Home />
+                <Post post='' showDetailViewButton='false'/>
                 <div>Comments</div>
                 <p>There are {this.state.comments.length} comments</p>
                 {this.outputComments()}
