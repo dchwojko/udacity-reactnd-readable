@@ -8,20 +8,21 @@ class Comment extends Component {
         // TO DO
     }
 
+    //new Date((1444757460 * 1000)).toLocaleString();
+
     render() {
         const {comment, deleteComment} = this.props;
         return (
             <div key={comment.id} className="card">
                 <div className="container">
-                    <div className="comment-parentId">{comment.parentId}</div>
-                    <div className="comment-timestamp">{comment.timestamp}</div>
+                    <div className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</div>
                     <div className="comment-id">Comment ID: <i>(id: {comment.id}</i>)</div>
                     <div className="comment-body">Body: {comment.body}</div>
                     <div className="comment-author">Author: {comment.author}</div>
                     <div className="comment-vote-score">{comment.voteScore} <button type="button" value="+1">+1</button> <button type="button" value="-1">-1</button></div>
                     <div>
-                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleEditButtonClick()} id="editPostButton">Edit Comment</Link>
-                        <Link className="btn" role="button" to="/" onClick={(event) => deleteComment(comment.id)} id="deleteButton"><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
+                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleEditButtonClick()}>Edit Comment</Link>
+                        <Link className="btn" role="button" to="." onClick={(event) => deleteComment(comment.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
                     </div>
                 </div>
             </div>

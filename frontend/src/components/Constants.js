@@ -13,6 +13,8 @@ class Constants {
         GET: 'GET'
     }
 
+    static url = "http://localhost:3001";
+
 }
 
 export default Constants;

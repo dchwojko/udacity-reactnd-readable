@@ -31,12 +31,14 @@ class Post extends Component {
         console.log('handlePostDetailViewButtonClick');
     }
 
+//new Date(comment.timestamp).toLocaleString()
+
     render() {
         const {post, deletePost} = this.props;
         return (
             <div key={post.id} className="card">
                 <div className="container">
-                    <div className="post-timestamp" id="timestamp">{post.timestamp}</div>
+                    <div className="post-timestamp" id="timestamp">{new Date(post.timestamp).toLocaleString()}</div>
                     <div className="post-title" id="title">{post.title} <i>(id: {post.id}</i>)</div>
                     <div className="post-body" id="body">Body: {post.body}</div>
                     <div className="post-author" id="author">Author: {post.author}</div>
@@ -44,10 +46,10 @@ class Post extends Component {
                     <div className="post-vote-score" id="category">{post.voteScore} <button type="button" value="+1">+1</button> <button type="button" value="-1">-1</button></div>
                     <div className="post-comment-count" id="commentCount"># of comments: {post.commentCount}</div>
                     <div>
-                        <Link className="btn" role="button" to={`/postDetailView/${post.id}`} onClick={this.handlePostDetailViewButtonClick()} id="postDetailViewButton">Detail View</Link>
-                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleAddCommentButtonClick()} id="addCommentButton">Add Comment</Link>
-                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleEditButtonClick()} id="editPostButton">Edit Post</Link>
-                        <Link className="btn" role="button" to="/" onClick={(event) => deletePost(post.id)} id="deleteButton"><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
+                        <Link className="btn" role="button" to={`/postDetailView/${post.id}`}>Detail View</Link>
+                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleAddCommentButtonClick()}>Add Comment</Link>
+                        <Link className="btn" role="button" to={`/createEditView`} onClick={this.handleEditButtonClick()}>Edit Post</Link>
+                        <Link className="btn" role="button" to="/" onClick={(event) => deletePost(post.id)}><img src={DeleteIcon} alt="delete icon" width="25px" height="25px" /></Link>
                     </div>
                 </div>
             </div>

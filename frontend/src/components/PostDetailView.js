@@ -19,26 +19,30 @@ class PostDetailView extends Component {
         comments: []
     };
 
-    deleteComment() {
-        console.log('deleting comment');
-        this.getComments();
+    async deleteComment(id) {
+        console.log(`deleting comment: ${id}`);
+        await fetch(`${Constants.url}/comments/${id}`, {headers: Constants.headers}, {method: Constants.DELETE}).then((res) => res.json()).then(() => console.log('deleted comment'));
+        // TO DO: handle error
     }
 
     outputComments() {
             if (this.state.comments.length !== 0) {
                 return (
-                    <div align>
-                    {this.state.comments.map((comment) => { return <Comment comment={comment} deleteComment={this.deleteComment()}/>})}
-                    </div>
+                    this.state.comments.map((comment) => { return <Comment key={comment.id} comment={comment} deleteComment={this.deleteComment(comment.id)}/>})
                 );
             } else {
                 return (<div>There are no comments for this post.</div>);
             }
     }
 
+    async getPost(id) {
+        await fetch(`${Constants.url}/posts/${id}`, {headers: Constants.headers}).then((res) => res.json()).then((data) => {this.setState({post: data})});
+    }
+
     componentDidMount() {
         console.log("Post Detail View");
         console.log("post id: " + this.props.match.params.postId);
+        this.getPost(this.props.match.params.postId);
         this.getComments();
     }
 
@@ -54,14 +58,12 @@ class PostDetailView extends Component {
             <div className="posts-lists">
                 <div>PostDetailView</div>
                 <Home />
-                <Post post='' showDetailViewButton='false'/>
-                <div>
-                <p>There are {this.state.comments.length} comments</p>
+                <Post post={this.state.post} showDetailViewButton='false'/>
                 {this.outputComments()}
-                </div>
             </div>
         )
     }
 }
+/**/
 
 export default PostDetailView;
